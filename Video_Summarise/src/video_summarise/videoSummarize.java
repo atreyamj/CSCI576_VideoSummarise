@@ -60,10 +60,10 @@ public class videoSummarize {
 	public static final int height = 270, width = 480;
 	public static final int numLevels = 256; // Number of levels in histogram
 	public static final int group = 256 / numLevels; // Number of levels in
-														// histogram
+	// histogram
 	public static final int motionThresh = 10; // Threshold for pixel motion
 	public static final int keyFrameThresh = 40; // Threshold for key frame
-													// determination
+	// determination
 	public static double list_index[][];
 
 	public static void main(String[] args) {
@@ -248,29 +248,24 @@ public class videoSummarize {
 
 					keyFrames++;
 					int count = 30;
-					int fl=-1;
+					int fl = -1;
 					if (prevKeyFrame != 0) {
 
-						while (((i - count)<(prevKeyFrame))) {
+						while (((i - count) < (prevKeyFrame))) {
 							count--;
 						}
 						keyRecord.start_frame = i;
-						fl=1;
-					}
-					else
-					{
+						fl = 1;
+					} else {
 						keyRecord.start_frame = i;
 					}
-					if(fl==1 && i!=(file.length() / len ) -2)
-					{
-						keyRecord.end_frame = i+1;
-						
+					if (fl == 1 && i != (file.length() / len) - 2) {
+						keyRecord.end_frame = i + 1;
+
+					} else {
+						keyRecord.end_frame = i + 1;
 					}
-					else
-					{
-						keyRecord.end_frame = i+1;
-					}
-					fl=-1;
+					fl = -1;
 					prevKeyFrame = keyRecord.end_frame;
 
 					keyRecord.write = true;
@@ -284,7 +279,7 @@ public class videoSummarize {
 				/*
 				 * Decide whether we have a new shot
 				 */
-				System.out.println("*****" + histRatio_threshold);
+
 				if (entropy_diff[i] > entropy_diff_threshold && histRatio[i] > histRatio_threshold) {
 					// keyFrames=0;
 					current_record = new record();
@@ -316,7 +311,7 @@ public class videoSummarize {
 					}
 					// This is when sht
 					current_record.shot_no = shot_no;
-					System.out.println(shot_no + "-- trev");
+
 					current_record.start_frame = t_prev;
 					current_record.end_frame = keyFrames;
 					current_record.key_frames = keyFrames++;
@@ -346,7 +341,7 @@ public class videoSummarize {
 			/* Add the last record */
 			current_record = new record();
 			current_record.shot_no = shot_no;
-			System.out.println(shot_no + "-- trev1");
+
 			current_record.start_frame = t_prev;
 			current_record.end_frame = i - 1;
 			current_record.key_frames = keyFrames++;
@@ -389,8 +384,7 @@ public class videoSummarize {
 			for (i = 0; i < shot_data.size(); i++) {
 				current_record = new record();
 				current_record = shot_data.get((int) list_index[i][0]);
-				System.out.println(current_record.end_frame - current_record.start_frame + 1);
-				System.out.println(trailer_frames);
+
 				if ((current_record.end_frame - current_record.start_frame + 1) < trailer_frames) {
 					current_record.write = true;
 					trailer_frames = trailer_frames - (current_record.end_frame - current_record.start_frame + 1);
@@ -414,7 +408,7 @@ public class videoSummarize {
 				inputStream1 = new FileInputStream(audio_fileName);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
-				System.out.println(" Here 0");
+
 				return;
 			}
 
@@ -425,7 +419,8 @@ public class videoSummarize {
 				current_record = new record();
 				current_record = Keyshot_data.get(i);
 				if (current_record.write == true) {
-					//System.out.println(" Writing shot_no " + current_record.shot_no + " of " + Keyshot_data.size());
+					// System.out.println(" Writing shot_no " +
+					// current_record.shot_no + " of " + Keyshot_data.size());
 					WriteShot w = new WriteShot(Integer.toString(current_record.start_frame),
 							Integer.toString(current_record.end_frame), video_fileName, trailer_vfileName);
 					WriteShot.write_shot();
