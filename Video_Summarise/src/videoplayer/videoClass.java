@@ -50,7 +50,7 @@ public class videoClass implements Runnable {
 					long endTime = System.nanoTime();
 					long difference = endTime-startTime;
 					long waitseconds = 66666666 - difference;
-					
+					//System.out.println(difference);
 					try {
 						TimeUnit.NANOSECONDS.sleep(waitseconds);
 					} catch (InterruptedException e) {
@@ -61,9 +61,9 @@ public class videoClass implements Runnable {
 				} else if (player.status==0){
 					Thread.sleep(1);
 				} else{
-					System.out.println("resetting");
+//					System.out.println("resetting");
 					if (flag == 1){
-						System.out.println("flagged");
+						//System.out.println("flagged");
 						is.close();
 						is = new FileInputStream(file);
 						flag=0;

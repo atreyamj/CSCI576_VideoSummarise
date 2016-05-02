@@ -1,8 +1,10 @@
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.sound.sampled.AudioFormat;
@@ -17,8 +19,9 @@ public class soundClass implements Runnable{
 	String filename;
 	AVPlayer player;
 	InputStream waveStream;
-
-	private final int EXTERNAL_BUFFER_SIZE = 524;
+	InputStream fileIO;
+	
+	private final int EXTERNAL_BUFFER_SIZE = 8192;
 	
 	public soundClass(String aFile, AVPlayer aPlayer) {
         keepRunning = new AtomicBoolean(true);
@@ -64,14 +67,32 @@ public class soundClass implements Runnable{
 		dataLine.start();
 		int readBytes = 0;
 		byte[] audioBuffer = new byte[this.EXTERNAL_BUFFER_SIZE];
-		audioInputStream.mark(Integer.MAX_VALUE);
+//		audioInputStream.mark(Integer.MAX_VALUE);
+//		File input_audio = new File(filename);
+//		InputStream audio_input_is = null;
+//		byte[] allAudio = null;
+//	    try {
+//			audio_input_is = new FileInputStream(input_audio);
+//		
+//		 allAudio = new byte[(int) input_audio.length()];
+//		 audio_input_is.read(allAudio, 0, (int) input_audio.length());
+//	    } catch (Exception e2) {
+//			e2.printStackTrace();
+//		}
 		try {
+			int i = 44;
 			while (readBytes != -1) {
 				if (player.status ==1){
+					long startTime = System.nanoTime();
 					readBytes = audioInputStream.read(audioBuffer, 0, audioBuffer.length);
+					//audioBuffer = Arrays.copyOfRange(allAudio, i, i+audioBuffer.length);
 					if (readBytes >= 0) {
 						dataLine.write(audioBuffer, 0, readBytes);
+						//i+=audioBuffer.length;
 					}
+					long endTime = System.nanoTime();
+					long totalTime = endTime-startTime;
+					//System.out.println(totalTime);
 				} else if (player.status == 0){
 					Thread.sleep(1);
 				} else {
