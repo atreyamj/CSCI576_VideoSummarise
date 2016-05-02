@@ -1,5 +1,5 @@
 //package org.wikijava.sound.playWave;
-package videoplayer;
+
 /**
  * @author Giulio
  */

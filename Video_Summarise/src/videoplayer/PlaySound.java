@@ -1,4 +1,4 @@
-package videoplayer;
+
 //package org.wikijava.sound.playWave;
 
 import java.io.BufferedInputStream;

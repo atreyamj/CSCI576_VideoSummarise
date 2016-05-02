@@ -1,4 +1,3 @@
-package videoplayer;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,12 +41,18 @@ public class videoClass implements Runnable {
 				if(player.status==1){
 					//System.out.println("running");
 					offset = 0;
+					long startTime = System.nanoTime(); 
+					
 					numRead = is.read(bytes, offset, bytes.length - offset);
 					BufferedImage aNewImage = newImg(bytes);
 					player.lbIm1.setIcon(new ImageIcon(aNewImage));
-	
+					
+					long endTime = System.nanoTime();
+					long difference = endTime-startTime;
+					long waitseconds = 66666666 - difference;
+					
 					try {
-						TimeUnit.MILLISECONDS.sleep(66);
+						TimeUnit.NANOSECONDS.sleep(waitseconds);
 					} catch (InterruptedException e) {
 						// 
 						e.printStackTrace();
